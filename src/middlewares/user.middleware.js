@@ -63,7 +63,7 @@ const sendPassToEmail = async (req, res, next) => {
     next();
   } catch (error) {
     // console.log(error);
-    console.log(ERROR_MESSAGE);
+    console.log(error);
     res.status(500).send(ERROR_MESSAGE);
   }
 };
