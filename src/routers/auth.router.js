@@ -13,10 +13,6 @@ const authRouter = Router();
 
 authRouter.post("/dang-nhap", signIn);
 authRouter.post("/dang-ky", signUp);
-authRouter.post(
-  "/quen-mat-khau",
-  [setPasswordDefault, sendPassToEmail],
-  resetPassword
-);
+authRouter.post("/quen-mat-khau", [sendPassToEmail], resetPassword);
 
 module.exports = { authRouter };
