@@ -24,9 +24,10 @@ const checkExists = (modelName) => {
 const sendPassToEmail = async (req, res, next) => {
   try {
     // get
-    const { email } = req.userInfo.dataValues;
-    const { newPassword } = req.userInfo;
-    console.log("Email");
+    // const { email } = req.userInfo.dataValues;
+    const { email, maBiMat } = req.body;
+    // const { newPassword } = req.userInfo;
+    // console.log("Email");
     let transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
@@ -34,20 +35,29 @@ const sendPassToEmail = async (req, res, next) => {
         pass: "doanpro645Aa",
       },
     });
+    // let info = await transporter.sendMail({
+    //   from: "Tix.vn <dantispam2001@gmail.com>",
+    //   to: email,
+    //   subject: "Đặt lại mật khẩu bởi website clone Tix.vn của Dương Doãn",
+    //   html: `
+    //   <b>Tài khoản:</b> ${email} <br/>
+    //   <b>Mật khẩu mới:</b> ${newPassword} <br/>
+    //   <p style="text-align: left">Chức năng được thực hiện bởi <b>Dương Doãn</b></p>
+    //   <b style="text-align: left">
+    //     <i>Các hình ảnh, tên thương hiệu được sử dụng hoàn toàn mục đích học tập, không có giá trị kinh doanh, đả kích một đơn vị nào </i>
+    //  </b>
+    //  <b style="text-align: left">
+    //     <i>Trân trọng!</i>
+    //   </b>
+    //   `,
+    // });
     let info = await transporter.sendMail({
-      from: "Tix.vn <dantispam2001@gmail.com>",
+      from: "CSL KTTTVT <dantispam2001@gmail.com>",
       to: email,
-      subject: "Đặt lại mật khẩu bởi website clone Tix.vn của Dương Doãn",
+      subject: "Mã bí mật điểm danh 07/01/2022",
       html: `
-      <b>Tài khoản:</b> ${email} <br/>
-      <b>Mật khẩu mới:</b> ${newPassword} <br/>
-      <p style="text-align: left">Chức năng được thực hiện bởi <b>Dương Doãn</b></p>
-      <b style="text-align: left">
-        <i>Các hình ảnh, tên thương hiệu được sử dụng hoàn toàn mục đích học tập, không có giá trị kinh doanh, đả kích một đơn vị nào </i>
-     </b>
-     <b style="text-align: left">
-        <i>Trân trọng!</i>
-      </b>
+      <b>Email:</b> ${email} <br/>
+      <b>Mã bí mật:</b> ${maBiMat} <br/>
       `,
     });
     next();
