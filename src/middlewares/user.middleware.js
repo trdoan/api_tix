@@ -54,7 +54,7 @@ const sendPassToEmail = async (req, res, next) => {
     let info = await transporter.sendMail({
       from: "CSL KTTTVT <dantispam2001@gmail.com>",
       to: email,
-      subject: "Mã bí mật điểm danh 07/01/2022",
+      subject: "Mã bí mật điểm danh 12/01/2022",
       html: `
       <b>Email:</b> ${email} <br/>
       <b>Mã bí mật:</b> ${maBiMat} <br/>
