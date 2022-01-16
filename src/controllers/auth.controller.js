@@ -16,6 +16,7 @@ const signIn = async (req, res) => {
       res.status(404).send({ message: "Tài khoản hoặc mật khẩu không đúng" });
     }
   } catch (error) {
+    console.log(error);
     res.status(500).send(ERROR_MESSAGE);
   }
 };
@@ -24,29 +25,32 @@ const signUp = async (req, res) => {
     const { name, email, password, phone } = req.body;
     let salt = bcrypt.genSaltSync(10);
     let hashPassword = bcrypt.hashSync(password, salt);
-    const newUser = await User.create({
+    await User.create({
       name,
       email,
       password: hashPassword,
       phone,
     });
-    res
-      .status(201)
-      .send({ message: "Đăng ký tài khoản thành công", description: newUser });
+    res.send({ message: "Đăng ký thành công" });
   } catch (error) {
-    console.log(error);
-    res.status(500).send({ status: 500, message: ERROR_MESSAGE });
+    const { fields } = error;
+    if (fields) {
+      res.send({
+        message: Object.keys(error.fields) + " đã tồn tại",
+      });
+    } else {
+      res.status(500).send({ status: 500, message: ERROR_MESSAGE });
+    }
   }
 };
 const resetPassword = (req, res) => {
   try {
     res.status(200).send({
-      message: "Vui lòng kiểm tra email đã đăng ký, để nhận mật khẩu mới",
+      message: "Đặt lại mật khẩu thành công",
     });
   } catch (error) {
     console.log(error);
-    console.log("message: " + ERROR_MESSAGE);
-    res.status(500).send({ status: 500, message: "test" });
+    res.status(500).send({ status: 500, message: ERROR_MESSAGE });
   }
 };
 
