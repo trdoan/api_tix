@@ -4,8 +4,9 @@ const {
   signUp,
   resetPassword,
 } = require("../controllers/auth.controller");
-
-const { sendPassToEmail } = require("../middlewares/user.middleware");
+const {
+  sendPassToEmail,
+} = require("../middlewares/auth/reset-password.middleware");
 
 const authRouter = Router();
 
