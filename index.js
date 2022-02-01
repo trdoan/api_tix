@@ -4,6 +4,7 @@ const cors = require("cors");
 const { PORT, SAVE_LOCAL } = require("./config");
 const path = require("path");
 const app = express();
+
 app.use(cors());
 // format JSON request
 app.use(express.json());

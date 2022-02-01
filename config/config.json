@@ -1,9 +1,9 @@
 {
   "development": {
-    "username": "root",
-    "password": "doanvipqua",
-    "database": "api_movie_renewnodejs",
-    "host": "localhost",
+    "username": "u5uj0zjrpgp6knph",
+    "password": "79u96fJ9xFlon41BrBgl",
+    "database": "bmli6nv6ixjhezjd8mtn",
+    "host": "bmli6nv6ixjhezjd8mtn-mysql.services.clever-cloud.com",
     "dialect": "mysql"
   },
   "test": {

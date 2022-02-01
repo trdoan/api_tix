@@ -11,6 +11,7 @@ const signIn = async (req, res) => {
     if (isLogin) {
       const payload = { id: user.id, email: user.email, role: user.role };
       const token = jwt.sign(payload, SECRET_KEY);
+
       res.status(200).send({ message: "Đăng nhập thành công", token });
     } else {
       res.status(404).send({ message: "Tài khoản hoặc mật khẩu không đúng" });
