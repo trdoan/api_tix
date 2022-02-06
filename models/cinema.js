@@ -2,7 +2,7 @@
 const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class Cinema extends Model {
-    static associate({ Cineplex, cinema_movie }) {
+    static associate({ Cineplex, Show_Time }) {
       this.belongsTo(Cineplex, {
         allowNull: true,
         foreignKey: "cineplexId",
@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
         hooks: true,
       });
 
-      this.hasMany(cinema_movie, {
+      this.hasMany(Show_Time, {
         foreignKey: "cinemaId",
         onDelete: "cascade",
         onUpdate: "cascade",

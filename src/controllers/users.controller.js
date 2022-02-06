@@ -51,15 +51,15 @@ const findDetail = async (req, res) => {
 };
 const create = async (req, res) => {
   try {
-    const { name, email, password, phone, role, avatar } = req.body;
+    const { hoTen, email, matKhau, soDT, nhomQuyen, avatar } = req.body;
     let salt = bcrypt.genSaltSync(10);
-    let hashPassword = bcrypt.hashSync(password, salt);
+    let hashPassword = bcrypt.hashSync(matKhau, salt);
     const newUser = await User.create({
-      name,
+      hoTen,
       email,
-      password: hashPassword,
-      phone,
-      role,
+      matKhau: hashPassword,
+      soDT,
+      nhomQuyen,
       avatar,
     });
     res.status(201).send(newUser);

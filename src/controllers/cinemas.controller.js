@@ -1,12 +1,12 @@
 const { Cinema, Movie, sequelize } = require("../../models");
-const { cinema_movie } = require("../../models");
+const { Movie_Cinema } = require("../../models");
 
 const findCinema = async (req, res) => {
   try {
     const { id } = req.params;
     let data;
     if (id) {
-      data = data = await Cinema.findAll({
+      data = await Cinema.findAll({
         attributes: {
           exclude: ["cineplexId", "createdAt", "updatedAt"],
         },
@@ -28,25 +28,29 @@ const findCinema = async (req, res) => {
   }
 };
 const findMoviesByCinema = async (req, res) => {
-  // console.log(typeof +req.params.id);
-  // const movieList = await cinema_movie.findAll({
-  //   where: { cinemaId: req.params.id },
-
-  //   include: [
-  //     { model: Movie, attributes: ["name"], as: "movie_cinema", nest: true },
-  //   ],
-  // });
-  const [results, metadata] = await sequelize.query(`
-  select movies.id,movies.name,startDate,time,rate,poster,trailer from cinema_movies
-  left join movies on cinema_movies.movieId = movies.id
-  where cinema_movies.cinemaId = ${req.params.id};
-  `);
-  res.send(results);
+  const { id } = req.params;
+  try {
+    const temp = await Movie_Cinema.findAll({
+      where: {
+        cinemaId: id,
+      },
+      include: "Movie",
+    });
+    const data = JSON.stringify(temp, null, 2);
+    const movieList = temp.map((movie) => {
+      return movie.Movie;
+    });
+    // console.log(movieList);
+    res.send(movieList);
+  } catch (error) {
+    res.send("error");
+    console.log(error);
+  }
 };
 const createCinema = async (req, res) => {
   try {
     const { name, address, image, cineplexId } = req.body;
-    await Cinema.create({
+    const cinemaItem = await Cinema.create({
       name,
       address,
       image,
@@ -75,10 +79,19 @@ const deleteCinema = async (req, res) => {
     res.status(500).send({ message: "Server error" });
   }
 };
+// add danh sash phim cho cuum rap
+const addMovieCinema = async (req, res) => {
+  const temp = await Cinema.findAll({
+    include: Movie_Cinema,
+  });
+  console.log(temp);
+  res.send("thaanh cong");
+};
 module.exports = {
   findCinema,
   createCinema,
   updateCinema,
   deleteCinema,
   findMoviesByCinema,
+  addMovieCinema,
 };

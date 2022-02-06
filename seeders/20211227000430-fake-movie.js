@@ -2,6 +2,7 @@
 
 const data = [
   {
+    id: 2000,
     name: "NGƯỜI NHỆN KHÔNG CÒN NHÀ",
     startDate: "2021-12-17",
     time: "149",
@@ -13,6 +14,7 @@ const data = [
     updatedAt: "2021-12-27",
   },
   {
+    id: 2001,
     name: "HỐ SỤT TỬ THẦN",
     startDate: "2021-12-24",
     time: "117",
@@ -24,6 +26,7 @@ const data = [
     updatedAt: "2021-12-27",
   },
   {
+    id: 2002,
     name: "MA TRẬN: HỒI SINH",
     startDate: "2021-12-24",
     time: "148",

@@ -1,5 +1,7 @@
 "use strict";
 
+const { ROLE_USER_CLIENT, AVATAR_USER_DEFAUT } = require("../config");
+
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.createTable(
@@ -11,23 +13,27 @@ module.exports = {
           primaryKey: true,
           type: Sequelize.INTEGER,
         },
-        name: {
+        hoTen: {
           type: Sequelize.STRING,
         },
         email: {
           type: Sequelize.STRING,
           unique: true,
         },
-        password: {
+        matKhau: {
           type: Sequelize.STRING,
         },
-        phone: {
+        avatar: {
+          type: Sequelize.TEXT,
+          defaultValue: AVATAR_USER_DEFAUT,
+        },
+        soDT: {
           type: Sequelize.STRING,
           unique: true,
         },
-        role: {
+        nhomQuyen: {
           type: Sequelize.STRING,
-          defaultValue: "CLIENT",
+          defaultValue: ROLE_USER_CLIENT,
         },
         createdAt: {
           allowNull: false,

@@ -25,7 +25,7 @@ userRouter.post(
 );
 userRouter.get("/", findAll);
 userRouter.get("/:id", checkExists(User), findDetail);
-userRouter.post("/", checkName, create);
+userRouter.post("/", create);
 userRouter.put("/:id", authenticate, checkExists(User), checkName, update);
 userRouter.delete(
   "/:id",
