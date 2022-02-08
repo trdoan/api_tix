@@ -21,9 +21,9 @@ module.exports = (sequelize, DataTypes) => {
   }
   Cinema.init(
     {
-      name: DataTypes.STRING,
-      address: DataTypes.STRING,
-      image: DataTypes.STRING,
+      tenCumRap: DataTypes.STRING,
+      diaChi: DataTypes.STRING,
+      hinhAnh: DataTypes.STRING,
       cineplexId: DataTypes.INTEGER,
     },
     {

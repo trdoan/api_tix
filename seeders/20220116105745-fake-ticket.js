@@ -8,24 +8,14 @@ module.exports = {
         {
           userId: 1000,
           movieId: 2000,
+          showtimeId: 6000,
           createdAt: "2021-12-27",
           updatedAt: "2021-12-27",
         },
         {
           userId: 1000,
           movieId: 2001,
-          createdAt: "2021-12-27",
-          updatedAt: "2021-12-27",
-        },
-        {
-          userId: 1000,
-          movieId: 2002,
-          createdAt: "2021-12-27",
-          updatedAt: "2021-12-27",
-        },
-        {
-          userId: 1001,
-          movieId: 2000,
+          showtimeId: 6001,
           createdAt: "2021-12-27",
           updatedAt: "2021-12-27",
         },

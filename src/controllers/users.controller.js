@@ -52,20 +52,42 @@ const findDetail = async (req, res) => {
 const create = async (req, res) => {
   try {
     const { hoTen, email, matKhau, soDT, nhomQuyen, avatar } = req.body;
-    let salt = bcrypt.genSaltSync(10);
-    let hashPassword = bcrypt.hashSync(matKhau, salt);
-    const newUser = await User.create({
-      hoTen,
-      email,
-      matKhau: hashPassword,
-      soDT,
-      nhomQuyen,
-      avatar,
-    });
-    res.status(201).send(newUser);
+    if (hoTen && email && matKhau && soDT) {
+      let salt = bcrypt.genSaltSync(10);
+      let hashPassword = bcrypt.hashSync(matKhau, salt);
+      const newUser = await User.create({
+        hoTen,
+        email,
+        matKhau: hashPassword,
+        soDT,
+        nhomQuyen,
+        avatar,
+      });
+      res.status(201).send(newUser);
+    } else {
+      res.status(400).send({ message: "Dữ liệu không hợp lệ" });
+    }
   } catch (error) {
-    console.log(error);
-    res.status(500).send({ status: 500, message: ERROR_MESSAGE });
+    const { code } = error.original;
+    const { errors } = error;
+
+    if (code === "ER_DUP_ENTRY") {
+      let key = errors[0].path;
+      switch (key) {
+        case "soDT":
+          key = "Số điện thoại";
+          break;
+        case "email":
+          key = "Email";
+          break;
+
+        default:
+          break;
+      }
+      res.status(400).send({ message: key + " đã tồn tại" });
+    } else {
+      res.status(500).send({ status: 500, message: ERROR_MESSAGE });
+    }
   }
 };
 const update = async (req, res) => {

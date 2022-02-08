@@ -15,8 +15,8 @@ module.exports = (sequelize, DataTypes) => {
   }
   Cineplex.init(
     {
-      name: DataTypes.STRING,
-      logo: DataTypes.STRING,
+      tenHeThongRap: DataTypes.STRING,
+      hinhAnh: DataTypes.STRING,
     },
     {
       sequelize,

@@ -1,5 +1,7 @@
 "use strict";
 
+const { ROLE_USER_ADMIN, ROLE_USER_CLIENT } = require("../config");
+
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.bulkInsert(
@@ -7,21 +9,21 @@ module.exports = {
       [
         {
           id: 1000,
-          name: "admin",
+          hoTen: "admin",
           email: "admin@gmail.com",
-          password: "",
-          phone: "00",
-          role: "ADMIN",
+          matKhau: "",
+          soDT: "00",
+          nhomQuyen: ROLE_USER_ADMIN,
           createdAt: "2022-02-02",
           updatedAt: "2022-02-02",
         },
         {
           id: 1001,
-          name: "client",
+          hoTen: "client",
           email: "client@gmail.com",
-          password: "",
-          phone: "01",
-          role: "CLIENT",
+          matKhau: "",
+          soDT: "01",
+          nhomQuyen: ROLE_USER_CLIENT,
           createdAt: "2022-02-02",
           updatedAt: "2022-02-02",
         },

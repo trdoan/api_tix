@@ -15,16 +15,16 @@ module.exports = (sequelize, DataTypes) => {
         onDelete: "cascade",
         onUpdate: "cascade",
         hooks: true,
-        as: "movie",
+        as: "chiTietPhim",
       });
     }
   }
   Movie.init(
     {
-      name: DataTypes.STRING,
-      startDate: DataTypes.DATE,
-      time: DataTypes.INTEGER,
-      rate: DataTypes.FLOAT,
+      tenPhim: DataTypes.STRING,
+      ngayKhoiChieu: DataTypes.DATE,
+      thoiLuong: DataTypes.INTEGER,
+      danhGia: DataTypes.FLOAT,
       poster: DataTypes.TEXT,
       trailer: DataTypes.STRING,
     },

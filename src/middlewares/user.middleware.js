@@ -1,5 +1,5 @@
 const { ERROR_MESSAGE } = require("../../config");
-
+const checkEmty = (req, res) => {};
 const checkName = (req, res, next) => {
   const { name } = req.body;
   if (name.length < 0 || name.length > 15) {

@@ -19,10 +19,10 @@ module.exports = (sequelize, DataTypes) => {
   }
   Seat.init(
     {
-      name: DataTypes.TEXT,
-      status: DataTypes.BOOLEAN,
-      price: DataTypes.INTEGER,
-      type: DataTypes.TEXT,
+      tenGhe: DataTypes.TEXT,
+      daDat: DataTypes.BOOLEAN,
+      giaGhe: DataTypes.INTEGER,
+      loaiGhe: DataTypes.TEXT,
       showtimeId: DataTypes.INTEGER,
     },
     {
