@@ -23,7 +23,7 @@ app.get("/", (req, res) => {
 setInterval(function () {
   console.log("hack herokuapp");
   http.get("http://first-app-test-0.herokuapp.com");
-}, 5000); // every 5 minutes (300000)
+}, 300000 * 4); // every 20 minutes (300000 * 4)
 
 app.use("/api/v1", rootRouter);
 
