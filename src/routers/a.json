@@ -5,7 +5,7 @@
     "title": "Swagger ReactMovie",
     "description": "API miễn phí có băng thông giới hạn"
   },
-  "host": "localhost:3036",
+  "host": "first-app-test-0.herokuapp.com",
   "basePath": "/api/v1/",
   "tags": [
     {
