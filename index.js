@@ -4,7 +4,7 @@ const cors = require("cors");
 const { PORT, SAVE_LOCAL } = require("./config");
 const path = require("path");
 const app = express();
-
+const http = require("http");
 app.use(cors());
 // format JSON request
 app.use(express.json());
@@ -20,6 +20,10 @@ if (SAVE_LOCAL == "true") {
 app.get("/", (req, res) => {
   res.send("Welcome to my API clone-tix.vn by doandev");
 });
+setInterval(function () {
+  console.log("hack herokuapp");
+  http.get("http://first-app-test-0.herokuapp.com");
+}, 5000); // every 5 minutes (300000)
 
 app.use("/api/v1", rootRouter);
 
