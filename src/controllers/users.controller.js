@@ -19,6 +19,7 @@ const findAll = async (req, res) => {
     });
     res.status(200).send(userList);
   } catch (error) {
+    console.log(error);
     res.status(500).send({
       status: 500,
       message: ERROR_MESSAGE,
