@@ -22,8 +22,8 @@ app.get("/", (req, res) => {
 });
 setInterval(function () {
   console.log("hack herokuapp");
-  http.get("http://first-app-test-0.herokuapp.com");
-}, 300000 * 4); // every 20 minutes (300000 * 4)
+  http.get("http://api-react-movie.herokuapp.com");
+}, 300000 * 4);
 
 app.use("/api/v1", rootRouter);
 
