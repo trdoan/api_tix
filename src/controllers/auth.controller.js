@@ -1,7 +1,7 @@
 const { User } = require("../../models");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const { SECRET_KEY, ERROR_MESSAGE } = require("./../../config");
+const { APP_SECRET_KEY, ERROR_MESSAGE } = require("./../../config");
 
 const signIn = async (req, res) => {
   try {
@@ -10,7 +10,7 @@ const signIn = async (req, res) => {
     let isLogin = bcrypt.compareSync(password, user.password);
     if (isLogin) {
       const payload = { id: user.id, email: user.email, role: user.role };
-      const token = jwt.sign(payload, SECRET_KEY);
+      const token = jwt.sign(payload, APP_SECRET_KEY);
 
       res.status(200).send({ message: "Đăng nhập thành công", token });
     } else {
