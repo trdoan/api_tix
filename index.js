@@ -1,7 +1,7 @@
 const express = require("express");
 const { rootRouter } = require("./src/routers/root.router");
 const cors = require("cors");
-const { APP_PORT, SAVE_LOCAL } = require("./config");
+const { PORT, SAVE_LOCAL } = require("./config");
 const path = require("path");
 const app = express();
 const http = require("http");
@@ -22,6 +22,6 @@ setInterval(() => {
 
 app.use("/api/v1", rootRouter);
 
-app.listen(APP_PORT, () => {
-  console.log("listening on PORT", APP_PORT);
+app.listen(PORT, () => {
+  console.log("listening on PORT", PORT);
 });
