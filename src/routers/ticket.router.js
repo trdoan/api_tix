@@ -7,8 +7,7 @@ const {
   Show_Time,
   Seat,
 } = require("../../models");
-const { QueryTypes } = require("sequelize");
-const ticket = require("../../models/ticket");
+
 const ticketRouter = Router();
 ticketRouter.get("/", async (req, res) => {
   const listTicket = await Ticket.findAll({
@@ -33,5 +32,19 @@ ticketRouter.get("/", async (req, res) => {
   });
 
   res.send(listTicket);
+});
+
+ticketRouter.get("/lich-su-dat-ve", async (req, res) => {
+  // verify token
+  const { userId } = req.body;
+  console.log(userId);
+
+  const data = await Ticket.findAll({
+    where: {
+      userId,
+    },
+    include: [{ model: User, as: "nguoiMua" }],
+  });
+  res.send(data);
 });
 module.exports = { ticketRouter };

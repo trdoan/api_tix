@@ -16,7 +16,11 @@ const {
   processByMulter,
   saveToCloudinary,
 } = require("../middlewares/upload/upload-image.middleware");
-const { checkName, checkExists } = require("../middlewares/user.middleware");
+const {
+  checkName,
+  checkExists,
+  checkEmail,
+} = require("../middlewares/user.middleware");
 const userRouter = Router();
 userRouter.post(
   "/upload-avatar",
@@ -25,7 +29,7 @@ userRouter.post(
 );
 userRouter.get("/", findAll);
 userRouter.get("/:id", checkExists(User), findDetail);
-userRouter.post("/", create);
+userRouter.post("/", checkEmail, create);
 userRouter.put("/:id", authenticate, checkExists(User), checkName, update);
 userRouter.delete(
   "/:id",

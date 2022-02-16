@@ -9,7 +9,7 @@ const { userRouter } = require("./user.router");
 
 // swagger
 const swaggerUi = require("swagger-ui-express");
-const swaggerDocument = require("./a.json");
+const swaggerDocument = require("./../../documents/swagger.json");
 // config routers
 const rootRouter = Router();
 rootRouter.use("/document", swaggerUi.serve);

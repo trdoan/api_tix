@@ -5,9 +5,9 @@ const { APP_SECRET_KEY, ERROR_MESSAGE } = require("./../../config");
 
 const signIn = async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { email, matKhau } = req.body;
     const user = await User.findOne({ where: { email } });
-    let isLogin = bcrypt.compareSync(password, user.password);
+    let isLogin = bcrypt.compareSync(matKhau, user.matKhau);
     if (isLogin) {
       const payload = { id: user.id, email: user.email, role: user.role };
       const token = jwt.sign(payload, APP_SECRET_KEY);
@@ -23,14 +23,14 @@ const signIn = async (req, res) => {
 };
 const signUp = async (req, res) => {
   try {
-    const { name, email, password, phone } = req.body;
+    const { hoTen, email, matKhau, soDT } = req.body;
     let salt = bcrypt.genSaltSync(10);
-    let hashPassword = bcrypt.hashSync(password, salt);
+    let hashPassword = bcrypt.hashSync(matKhau, salt);
     await User.create({
-      name,
+      hoTen,
       email,
-      password: hashPassword,
-      phone,
+      matKhau: hashPassword,
+      soDT,
     });
     res.send({ message: "Đăng ký thành công" });
   } catch (error) {

@@ -1,12 +1,12 @@
 const jwt = require("jsonwebtoken");
-const { SECRET_KEY } = require("../../../config");
+const { APP_SECRET_KEY } = require("../../../config");
 // test bug fake token
 const { User } = require("../../../models");
 const authenticate = (req, res, next) => {
   const token = req.header("token");
   if (token) {
     try {
-      const decode = jwt.verify(token, SECRET_KEY);
+      const decode = jwt.verify(token, APP_SECRET_KEY);
       req.user = decode;
       next();
     } catch (error) {

@@ -53,9 +53,10 @@ const findDetail = async (req, res) => {
 const create = async (req, res) => {
   try {
     const { hoTen, email, matKhau, soDT, nhomQuyen, avatar } = req.body;
-    if (hoTen && email && matKhau && soDT) {
+    if (hoTen && matKhau) {
       let salt = bcrypt.genSaltSync(10);
       let hashPassword = bcrypt.hashSync(matKhau, salt);
+
       const newUser = await User.create({
         hoTen,
         email,
@@ -64,6 +65,7 @@ const create = async (req, res) => {
         nhomQuyen,
         avatar,
       });
+
       res.status(201).send(newUser);
     } else {
       res.status(400).send({ message: "Dữ liệu không hợp lệ" });
@@ -87,16 +89,17 @@ const create = async (req, res) => {
       }
       res.status(400).send({ message: key + " đã tồn tại" });
     } else {
+      console.log(error);
       res.status(500).send({ status: 500, message: ERROR_MESSAGE });
     }
   }
 };
 const update = async (req, res) => {
   const { id } = req.params;
-  const { name, email, password, phone, role } = req.body;
+  const { hoTen, email, matKhau, soDT, nhomQuyen } = req.body;
   let salt = bcrypt.genSaltSync(10);
-  let hashPassword = bcrypt.hashSync(password, salt);
-  const userUpdate = { name, email, password: hashPassword, phone, role };
+  let hashPassword = bcrypt.hashSync(matKhau, salt);
+  const userUpdate = { hoTen, email, matKhau: hashPassword, soDT, nhomQuyen };
 
   try {
     await User.update(userUpdate, {

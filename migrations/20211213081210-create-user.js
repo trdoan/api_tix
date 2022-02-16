@@ -28,6 +28,7 @@ module.exports = {
           defaultValue: AVATAR_USER_DEFAUT,
         },
         soDT: {
+          allowNull: false,
           type: Sequelize.STRING,
           unique: true,
         },
