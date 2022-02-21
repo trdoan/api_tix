@@ -7,14 +7,22 @@ const signIn = async (req, res) => {
   try {
     const { email, matKhau } = req.body;
     const user = await User.findOne({ where: { email } });
-    let isLogin = bcrypt.compareSync(matKhau, user.matKhau);
-    if (isLogin) {
-      const payload = { id: user.id, email: user.email, role: user.role };
-      const token = jwt.sign(payload, APP_SECRET_KEY);
-
-      res.status(200).send({ message: "Đăng nhập thành công", token });
+    let isLogin = false;
+    if (user) {
+      isLogin = bcrypt.compareSync(matKhau, user.matKhau);
+      if (isLogin) {
+        const payload = {
+          id: user.id,
+          email: user.email,
+          nhomQuyen: user.nhomQuyen,
+        };
+        const token = jwt.sign(payload, APP_SECRET_KEY);
+        res.status(200).send({ message: "Đăng nhập thành công", token });
+      } else {
+        res.status(404).send({ message: "Tài khoản hoặc mật khẩu không đúng" });
+      }
     } else {
-      res.status(404).send({ message: "Tài khoản hoặc mật khẩu không đúng" });
+      res.status(404).send({ message: "Email không tồn tại" });
     }
   } catch (error) {
     console.log(error);
@@ -34,12 +42,23 @@ const signUp = async (req, res) => {
     });
     res.send({ message: "Đăng ký thành công" });
   } catch (error) {
-    const { fields } = error;
-    if (fields) {
-      res.send({
-        message: Object.keys(error.fields) + " đã tồn tại",
-      });
+    const { code } = error.original;
+    const { errors } = error;
+    if (code === "ER_DUP_ENTRY") {
+      let key = errors[0].path;
+      switch (key) {
+        case "soDT":
+          key = "Số điện thoại";
+          break;
+        case "email":
+          key = "Email";
+          break;
+        default:
+          break;
+      }
+      res.status(400).send({ message: key + " đã tồn tại" });
     } else {
+      console.log(error);
       res.status(500).send({ status: 500, message: ERROR_MESSAGE });
     }
   }

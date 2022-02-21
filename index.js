@@ -19,11 +19,10 @@ if (SAVE_LOCAL == "true") {
 setInterval(() => {
   http.get("http://api-react-movie.herokuapp.com");
 }, 300000);
-const obj = {};
-obj["concho"] = "chocon";
-console.log(obj);
+
 app.use("/api/v1", rootRouter);
 
+// console.log(arrUser);
 app.listen(PORT, () => {
   console.log("listening on PORT", PORT);
 });

@@ -1,6 +1,6 @@
 const { User } = require("../../models");
 const bcrypt = require("bcryptjs");
-const { ERROR_MESSAGE } = require("../../config");
+const { ERROR_MESSAGE, SUCCESS_MESSAGE } = require("../../config");
 const uploadAvatar = async (req, res) => {
   const { user, linkImage } = req;
   const userUpload = await User.findByPk(user.id);
@@ -8,7 +8,7 @@ const uploadAvatar = async (req, res) => {
   userUpload.avatar = linkImage;
   userUpload.save();
 
-  res.status(200).send({ message: "Cập nhật ảnh đại diện thành công" });
+  res.status(200).send({ message: SUCCESS_MESSAGE });
 };
 const findAll = async (req, res) => {
   try {
@@ -56,7 +56,6 @@ const create = async (req, res) => {
     if (hoTen && matKhau) {
       let salt = bcrypt.genSaltSync(10);
       let hashPassword = bcrypt.hashSync(matKhau, salt);
-
       const newUser = await User.create({
         hoTen,
         email,
@@ -65,8 +64,7 @@ const create = async (req, res) => {
         nhomQuyen,
         avatar,
       });
-
-      res.status(201).send(newUser);
+      res.status(201).send({ message: SUCCESS_MESSAGE });
     } else {
       res.status(400).send({ message: "Dữ liệu không hợp lệ" });
     }
@@ -83,7 +81,6 @@ const create = async (req, res) => {
         case "email":
           key = "Email";
           break;
-
         default:
           break;
       }
@@ -99,21 +96,62 @@ const update = async (req, res) => {
   const { hoTen, email, matKhau, soDT, nhomQuyen } = req.body;
   let salt = bcrypt.genSaltSync(10);
   let hashPassword = bcrypt.hashSync(matKhau, salt);
-  const userUpdate = { hoTen, email, matKhau: hashPassword, soDT, nhomQuyen };
-
-  try {
-    await User.update(userUpdate, {
-      where: {
-        // find id need update
-        id,
-      },
-    });
-    res
-      .status(200)
-      .send({ status: 200, message: `Cập nhật người dùng thành công` });
-  } catch (error) {
-    console.log(error);
-    res.status(500).send({ status: 500, message: ERROR_MESSAGE });
+  const nhomQuyenDecoded = req.user.nhomQuyen;
+  let userUpdate;
+  if (nhomQuyenDecoded === "QUANTRI") {
+    console.log("zo  if ne");
+    userUpdate = {
+      hoTen,
+      email,
+      matKhau: hashPassword,
+      soDT,
+      nhomQuyen,
+    };
+  } else if (id == req.user.id) {
+    console.log("zo else if ne");
+    userUpdate = {
+      hoTen,
+      email,
+      matKhau: hashPassword,
+      soDT,
+    };
+  }
+  console.log({ userUpdate });
+  if (userUpdate) {
+    if (["QUANTRI", "NGUOIDUNG"].includes(nhomQuyen)) {
+      try {
+        await User.update(userUpdate, {
+          where: {
+            id,
+          },
+        });
+        res.status(200).send({ message: SUCCESS_MESSAGE });
+      } catch (error) {
+        const { code } = error.original;
+        const { errors } = error;
+        if (code === "ER_DUP_ENTRY") {
+          let key = errors[0].path;
+          switch (key) {
+            case "soDT":
+              key = "Số điện thoại";
+              break;
+            case "email":
+              key = "Email";
+              break;
+            default:
+              break;
+          }
+          res.status(400).send({ message: key + " đã tồn tại" });
+        } else {
+          console.log(error);
+          res.status(500).send({ status: 500, message: ERROR_MESSAGE });
+        }
+      }
+    } else {
+      res.status(400).send({ message: "Nhóm quyền không hợp lệ" });
+    }
+  } else {
+    res.status(403).send({ message: "Không có quyền thực hiện thao tác" });
   }
 };
 const remove = async (req, res) => {
@@ -126,7 +164,6 @@ const remove = async (req, res) => {
       },
     });
     res.status(200).send({
-      status: 200,
       message: `Xóa người dùng thành công`,
     });
   } catch (error) {

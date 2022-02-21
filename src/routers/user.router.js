@@ -29,12 +29,12 @@ userRouter.post(
 );
 userRouter.get("/", findAll);
 userRouter.get("/:id", checkExists(User), findDetail);
-userRouter.post("/", checkEmail, create);
+userRouter.post("/", checkEmail, authenticate, authorize(["QUANTRI"]), create);
 userRouter.put("/:id", authenticate, checkExists(User), checkName, update);
 userRouter.delete(
   "/:id",
   authenticate,
-  authorize(["ADMIN"]),
+  authorize(["QUANTRI"]),
   checkExists(User),
   remove
 );

@@ -1,6 +1,7 @@
 // const uuid = require("uuid");
 ("use strict");
 const { Model } = require("sequelize");
+const { ROLE_USER_CLIENT } = require("../config");
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     /**
@@ -26,7 +27,10 @@ module.exports = (sequelize, DataTypes) => {
       email: { type: DataTypes.STRING, unique: true },
       matKhau: DataTypes.STRING,
       soDT: { type: DataTypes.STRING, unique: true },
-      nhomQuyen: DataTypes.STRING,
+      nhomQuyen: {
+        type: DataTypes.STRING,
+        defaultValue: ROLE_USER_CLIENT,
+      },
       avatar: {
         type: DataTypes.STRING,
         defaultValue:
