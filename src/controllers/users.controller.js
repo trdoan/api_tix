@@ -14,8 +14,9 @@ const uploadAvatar = async (req, res) => {
 
 const findAll = async (req, res) => {
   try {
-    const { page, items } = req.query;
-
+    let page = req.query.page || 1;
+    let items = req.query.page || 10;
+    console.log(page, items);
     const data = await User.findAndCountAll({
       attributes: {
         exclude: ["matKhau", "createdAt", "updatedAt"],
@@ -26,13 +27,11 @@ const findAll = async (req, res) => {
 
     const { count: totalItems, rows: danhSachNguoiDung } = data;
     const tongSoTrang = Math.ceil(totalItems / items);
-    res
-      .status(200)
-      .send({
-        soTrang: page && +page,
-        tongSoTrang: items && tongSoTrang,
-        danhSachNguoiDung,
-      });
+    res.status(200).send({
+      soTrang: +page,
+      tongSoTrang: tongSoTrang,
+      danhSachNguoiDung,
+    });
   } catch (error) {
     console.log(error);
     res.status(500).send({
