@@ -1,6 +1,7 @@
 const { User } = require("../../models");
 const bcrypt = require("bcryptjs");
 const { ERROR_MESSAGE, SUCCESS_MESSAGE } = require("../../config");
+
 const uploadAvatar = async (req, res) => {
   const { user, linkImage } = req;
   const userUpload = await User.findByPk(user.id);
@@ -10,22 +11,36 @@ const uploadAvatar = async (req, res) => {
 
   res.status(200).send({ message: SUCCESS_MESSAGE });
 };
+
 const findAll = async (req, res) => {
   try {
-    const userList = await User.findAll({
+    const { page, items } = req.query;
+
+    const data = await User.findAndCountAll({
       attributes: {
-        exclude: ["password", "createdAt", "updatedAt"],
+        exclude: ["matKhau", "createdAt", "updatedAt"],
       },
+      limit: items && +items,
+      offset: page && items && +((page - 1) * items),
     });
-    res.status(200).send(userList);
+
+    const { count: totalItems, rows: danhSachNguoiDung } = data;
+    const tongSoTrang = Math.ceil(totalItems / items);
+    res
+      .status(200)
+      .send({
+        soTrang: page && +page,
+        tongSoTrang: items && tongSoTrang,
+        danhSachNguoiDung,
+      });
   } catch (error) {
     console.log(error);
     res.status(500).send({
-      status: 500,
       message: ERROR_MESSAGE,
     });
   }
 };
+
 const findDetail = async (req, res) => {
   try {
     const { id } = req.params;
@@ -50,6 +65,7 @@ const findDetail = async (req, res) => {
     });
   }
 };
+
 const create = async (req, res) => {
   try {
     const { hoTen, email, matKhau, soDT, nhomQuyen, avatar } = req.body;
@@ -91,6 +107,7 @@ const create = async (req, res) => {
     }
   }
 };
+
 const update = async (req, res) => {
   const { id } = req.params;
   const { hoTen, email, matKhau, soDT, nhomQuyen } = req.body;
@@ -154,6 +171,7 @@ const update = async (req, res) => {
     res.status(403).send({ message: "Không có quyền thực hiện thao tác" });
   }
 };
+
 const remove = async (req, res) => {
   const { id } = req.params;
   try {

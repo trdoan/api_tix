@@ -48,6 +48,72 @@ const data = [
     createdAt: "2021-12-27",
     updatedAt: "2021-12-27",
   },
+  {
+    tenPhim: "BẪY NGỌT NGÀO",
+    ngayKhoiChieu: "2021-12-19",
+    thoiLuong: "90",
+    danhGia: 9,
+    poster:
+      "https://www.cgv.vn/media/catalog/product/cache/1/image/c5f0a1eff4c394a251036189ccddaacd/b/n/bnn-new-year-poster-2022_1_.jpg",
+    trailer: "https://www.youtube.com/watch?v=8n5Xmnd1iS4",
+    createdAt: "2021-12-27",
+    updatedAt: "2021-12-27",
+  },
+  {
+    tenPhim: "TRĂNG RƠI",
+    ngayKhoiChieu: "2021-12-19",
+    thoiLuong: "90",
+    danhGia: 9,
+    poster:
+      "https://www.cgv.vn/media/catalog/product/cache/1/image/c5f0a1eff4c394a251036189ccddaacd/m/o/moonfall-revised_poster-vietnam_3.jpg",
+    trailer: "https://www.youtube.com/watch?v=8n5Xmnd1iS4",
+    createdAt: "2021-12-27",
+    updatedAt: "2021-12-27",
+  },
+  {
+    tenPhim: "TRĂNG RƠI",
+    ngayKhoiChieu: "2021-12-19",
+    thoiLuong: "90",
+    danhGia: 9,
+    poster:
+      "https://booking.bhdstar.vn/CDN/media/entity/get/FilmPosterGraphic/HO00002274?referenceScheme=HeadOffice&allowPlaceHolder=true&height=500",
+    trailer: "https://www.youtube.com/watch?v=8n5Xmnd1iS4",
+    createdAt: "2021-12-27",
+    updatedAt: "2021-12-27",
+  },
+  {
+    tenPhim: "CHÌA KHÓA TRĂM TỶ",
+    ngayKhoiChieu: "2021-12-19",
+    thoiLuong: "90",
+    danhGia: 9,
+    poster:
+      "https://booking.bhdstar.vn/CDN/media/entity/get/FilmPosterGraphic/HO00002358?referenceScheme=HeadOffice&allowPlaceHolder=true&height=500",
+    trailer: "https://www.youtube.com/watch?v=8n5Xmnd1iS4",
+    createdAt: "2021-12-27",
+    updatedAt: "2021-12-27",
+  },
+  {
+    tenPhim: "ENCANTO",
+    ngayKhoiChieu: "2021-12-19",
+    thoiLuong: "90",
+    danhGia: 9,
+    poster:
+      "https://booking.bhdstar.vn/CDN/media/entity/get/FilmPosterGraphic/HO00002360?referenceScheme=HeadOffice&allowPlaceHolder=true&height=500",
+    trailer: "https://www.youtube.com/watch?v=8n5Xmnd1iS4",
+    createdAt: "2021-12-27",
+    updatedAt: "2021-12-27",
+  },
+  {
+    tenPhim: "NHÀ KHÔNG BÁN",
+    ngayKhoiChieu: "2021-12-19",
+    thoiLuong: "90",
+    danhGia: 9,
+    poster:
+      "https://booking.bhdstar.vn/CDN/media/entity/get/FilmPosterGraphic/HO00002365?referenceScheme=HeadOffice&allowPlaceHolder=true&height=500",
+    trailer: "https://www.youtube.com/watch?v=8n5Xmnd1iS4",
+    createdAt: "2021-12-27",
+    updatedAt: "2021-12-27",
+  },
 ];
 module.exports = {
   up: async (queryInterface, Sequelize) => {
