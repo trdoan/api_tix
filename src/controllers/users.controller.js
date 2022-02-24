@@ -15,14 +15,14 @@ const uploadAvatar = async (req, res) => {
 const findAll = async (req, res) => {
   try {
     let page = req.query.page || 1;
-    let items = req.query.page || 10;
+    let items = req.query.items || 10;
     console.log(page, items);
     const data = await User.findAndCountAll({
       attributes: {
         exclude: ["matKhau", "createdAt", "updatedAt"],
       },
-      limit: items && +items,
-      offset: page && items && +((page - 1) * items),
+      limit: +items,
+      offset: +((page - 1) * items),
     });
 
     const { count: totalItems, rows: danhSachNguoiDung } = data;
