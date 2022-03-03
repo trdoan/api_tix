@@ -1,10 +1,58 @@
-const { Cineplex, Cinema } = require("../../models");
+const { Cineplex, Cinema, Show_Time, Movie } = require("../../models");
 const findAllCineplex = async (req, res) => {
   try {
     const cineplexList = await Cineplex.findAll({
-      include: [{ model: Cinema, as: "cinemaList" }],
+      include: [
+        {
+          model: Cinema,
+          as: "cinemaList",
+          include: [
+            {
+              model: Show_Time,
+            },
+          ],
+        },
+      ],
     });
-    res.send(cineplexList);
+    const result = [];
+    const arrData = JSON.parse(JSON.stringify(cineplexList, null, 2));
+    // console.log("arrData.cinemaList:", arrData.cinemaList);
+    arrData.map((item) => {
+      const { id, tenHeThongRap, hinhAnh, cinemaList: danhSachCumRap } = item;
+      // console.log(danhSachCumRap);
+      result.push({
+        id,
+        tenHeThongRap,
+        hinhAnh,
+        danhSachCumRap: danhSachCumRap.map((cumRap) => {
+          const {
+            id,
+            tenCumRap,
+            diaChi,
+            hinhAnh,
+            Show_Times: lichChieu,
+          } = cumRap;
+          console.log("lichChieu", lichChieu);
+
+          return {
+            id,
+            tenCumRap,
+            diaChi,
+            hinhAnh,
+            lichChieu: lichChieu.map((item) => {
+              const { id, gioChieu, Movie: thongTinPhim } = item;
+              return {
+                id,
+                gioChieu,
+                thongTinPhim,
+              };
+            }),
+          };
+        }),
+      });
+    });
+
+    res.send(result);
   } catch (error) {
     console.log(error);
     res.status(500).send("Server Error");
