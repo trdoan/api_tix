@@ -7,7 +7,7 @@ module.exports = (sequelize, DataTypes) => {
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
-    static associate({ Ticket }) {
+    static associate({ Ticket, Show_Time }) {
       // relationship with Ticket
       this.hasMany(Ticket, {
         allowNull: true,
@@ -16,6 +16,12 @@ module.exports = (sequelize, DataTypes) => {
         onUpdate: "cascade",
         hooks: true,
         as: "chiTietPhim",
+      });
+      this.hasMany(Show_Time, {
+        foreignKey: "movieId",
+        onDelete: "cascade",
+        onUpdate: "cascade",
+        hooks: true,
       });
     }
   }

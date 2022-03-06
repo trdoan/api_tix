@@ -7,7 +7,7 @@ module.exports = (sequelize, DataTypes) => {
       this.hasMany(Cinema, {
         allowNull: true,
         foreignKey: "cineplexId",
-        as: "cinemaList",
+        as: "danhSachCumRap",
         onDelete: "cascade",
         hooks: true,
       });
@@ -23,5 +23,6 @@ module.exports = (sequelize, DataTypes) => {
       modelName: "Cineplex",
     }
   );
+
   return Cineplex;
 };

@@ -21,6 +21,22 @@ module.exports = {
           createdAt: "2022-07-07",
           updatedAt: "2022-07-07",
         },
+        {
+          id: 6002,
+          gioChieu: "2022-07-08",
+          cinemaId: 4001,
+          movieId: 2001,
+          createdAt: "2022-07-07",
+          updatedAt: "2022-07-07",
+        },
+        {
+          id: 6003,
+          gioChieu: "2022-07-08",
+          cinemaId: 4002,
+          movieId: 2001,
+          createdAt: "2022-07-07",
+          updatedAt: "2022-07-07",
+        },
       ],
       {}
     );

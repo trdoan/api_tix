@@ -20,7 +20,7 @@ module.exports = {
           diaChi:
             "Tầng 4, Vincom Plaza Lê Văn Việt, 50 Lê Văn Việt, P.Hiệp Phú, Quận 9, TP.HCM",
           hinhAnh:
-            "https://www.bhdstar.vn/wp-content/uploads/2016/04/LVV-243x330.jpg",
+            "https://www.bhdstar.vn/wp-content/uploads/2019/06/BHDStar_Logo_Tron.png",
           cineplexId: 3000,
           createdAt: "2021-12-27",
           updatedAt: "2021-12-27",
@@ -31,7 +31,7 @@ module.exports = {
           diaChi:
             "Tầng 5, Vincom Plaza 3/2, 3C Đường 3 Tháng 2, P.11, Quận 10, TPHCM",
           hinhAnh:
-            "https://www.bhdstar.vn/wp-content/uploads/2010/08/3.2-243x330.jpg",
+            "https://www.bhdstar.vn/wp-content/uploads/2019/06/BHDStar_Logo_Tron.png",
           cineplexId: 3000,
           createdAt: "2021-12-27",
           updatedAt: "2021-12-27",
@@ -41,7 +41,8 @@ module.exports = {
           tenCumRap: "CGV Hùng Vương Plaza",
           diaChi:
             "Tầng 7, Hùng Vương Plaza, 126 Hùng Vương, Q.5, Tp. Hồ Chí Minh",
-          hinhAnh: "",
+          hinhAnh:
+            "https://gigamall.com.vn/data/2019/05/06/11365490_logo-cgv-500x500.jpg",
           cineplexId: 3001,
           createdAt: "2021-12-27",
           updatedAt: "2021-12-27",
@@ -51,7 +52,8 @@ module.exports = {
           tenCumRap: "CGV Vincom Thủ Đức",
           diaChi:
             "Tầng 5, TTTM Vincom Thủ Đức, 216 Võ Văn Ngân, P. Bình Thọ, Q. Thủ Đức, Tp. Hồ Chí Minh",
-          hinhAnh: "",
+          hinhAnh:
+            "https://gigamall.com.vn/data/2019/05/06/11365490_logo-cgv-500x500.jpg",
           cineplexId: 3001,
           createdAt: "2021-12-27",
           updatedAt: "2021-12-27",

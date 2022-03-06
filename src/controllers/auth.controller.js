@@ -2,8 +2,12 @@ const { User } = require("../../models");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { APP_SECRET_KEY, ERROR_MESSAGE } = require("./../../config");
-
+const { body, validationResult } = require("express-validator");
 const signIn = async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
   try {
     const { email, matKhau } = req.body;
     const user = await User.findOne({ where: { email } });
@@ -31,6 +35,10 @@ const signIn = async (req, res) => {
 };
 const signUp = async (req, res) => {
   try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
     const { hoTen, email, matKhau, soDT } = req.body;
     let salt = bcrypt.genSaltSync(10);
     let hashPassword = bcrypt.hashSync(matKhau, salt);
@@ -42,8 +50,8 @@ const signUp = async (req, res) => {
     });
     res.send({ message: "Đăng ký thành công" });
   } catch (error) {
-    const { code } = error.original;
-    const { errors } = error;
+    const code = error.original?.code;
+    const errors = error.errors;
     if (code === "ER_DUP_ENTRY") {
       let key = errors[0].path;
       switch (key) {

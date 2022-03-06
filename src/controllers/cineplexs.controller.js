@@ -1,58 +1,19 @@
-const { Cineplex, Cinema, Show_Time, Movie } = require("../../models");
+const { Cineplex, Cinema, Show_Time, Movie, Seat } = require("../../models");
+const _ = require("lodash");
 const findAllCineplex = async (req, res) => {
   try {
     const cineplexList = await Cineplex.findAll({
       include: [
         {
           model: Cinema,
-          as: "cinemaList",
-          include: [
-            {
-              model: Show_Time,
-            },
-          ],
+          as: "danhSachCumRap",
         },
       ],
     });
     const result = [];
     const arrData = JSON.parse(JSON.stringify(cineplexList, null, 2));
-    // console.log("arrData.cinemaList:", arrData.cinemaList);
-    arrData.map((item) => {
-      const { id, tenHeThongRap, hinhAnh, cinemaList: danhSachCumRap } = item;
-      // console.log(danhSachCumRap);
-      result.push({
-        id,
-        tenHeThongRap,
-        hinhAnh,
-        danhSachCumRap: danhSachCumRap.map((cumRap) => {
-          const {
-            id,
-            tenCumRap,
-            diaChi,
-            hinhAnh,
-            Show_Times: lichChieu,
-          } = cumRap;
-          console.log("lichChieu", lichChieu);
 
-          return {
-            id,
-            tenCumRap,
-            diaChi,
-            hinhAnh,
-            lichChieu: lichChieu.map((item) => {
-              const { id, gioChieu, Movie: thongTinPhim } = item;
-              return {
-                id,
-                gioChieu,
-                thongTinPhim,
-              };
-            }),
-          };
-        }),
-      });
-    });
-
-    res.send(result);
+    res.send(arrData);
   } catch (error) {
     console.log(error);
     res.status(500).send("Server Error");
@@ -104,9 +65,42 @@ const createCineplex = async (req, res) => {
     res.status(500).send("Server Error");
   }
 };
+const findAllWithShowTime = async (req, res) => {
+  try {
+    const cineplexList = await Cineplex.findAll({
+      include: {
+        model: Cinema,
+        include: [
+          {
+            model: Show_Time,
+            include: {
+              model: Movie,
+            },
+            as: "lichChieu",
+          },
+        ],
+        as: "danhSachCumRap",
+      },
+    });
+    const temp = [
+      { color: "red", id: 1 },
+      { color: "red", id: 2 },
+      { color: " blue", id: 3 },
+    ];
+    const test = _.chain(temp)
+      .groupBy("color")
+      .map((value, key) => ({ color: key, item: value }))
+      .value();
+    console.log(cineplexList);
+    res.send(cineplexList);
+  } catch (error) {
+    console.log(error);
+  }
+};
 module.exports = {
   findAllCineplex,
   createCineplex,
   updateCineplex,
   deleteCineplex,
+  findAllWithShowTime,
 };

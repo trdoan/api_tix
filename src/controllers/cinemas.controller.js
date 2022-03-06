@@ -49,11 +49,11 @@ const findMoviesByCinema = async (req, res) => {
 };
 const createCinema = async (req, res) => {
   try {
-    const { name, address, image, cineplexId } = req.body;
+    const { tenCumRap, diaChi, hinhAnh, cineplexId } = req.body;
     const cinemaItem = await Cinema.create({
-      name,
-      address,
-      image,
+      tenCumRap,
+      diaChi,
+      hinhAnh,
       cineplexId,
     });
     res.send({ message: "Tạo cụm rạp thành công" });

@@ -1,4 +1,4 @@
-const { Movie } = require("./../../models");
+const { Movie, Show_Time, Cinema } = require("./../../models");
 const findAllMovie = async (req, res) => {
   try {
     const movieList = await Movie.findAll();
@@ -18,6 +18,7 @@ const findDetailMovie = async (req, res) => {
     res.status(500).send({ message: "Server Error" });
   }
 };
+
 module.exports = {
   findAllMovie,
   findDetailMovie,

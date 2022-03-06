@@ -2,7 +2,13 @@ const { User } = require("../../../models");
 const { ERROR_MESSAGE } = require("../../../config");
 const bcrypt = require("bcryptjs");
 const nodemailer = require("nodemailer");
+const { body, validationResult } = require("express-validator");
+
 const sendPassToEmail = async (req, res, next) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
   try {
     const { email } = req.body;
     const passwordDefault = (Math.random() + 1).toString(36).substring(2);

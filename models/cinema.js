@@ -16,6 +16,7 @@ module.exports = (sequelize, DataTypes) => {
         onDelete: "cascade",
         onUpdate: "cascade",
         hooks: true,
+        as: "lichChieu",
       });
     }
   }
@@ -23,7 +24,11 @@ module.exports = (sequelize, DataTypes) => {
     {
       tenCumRap: DataTypes.STRING,
       diaChi: DataTypes.STRING,
-      hinhAnh: DataTypes.STRING,
+      hinhAnh: {
+        type: DataTypes.STRING,
+        defaultValue:
+          "https://gigamall.com.vn/data/2019/05/06/11365490_logo-cgv-500x500.jpg",
+      },
       cineplexId: DataTypes.INTEGER,
     },
     {

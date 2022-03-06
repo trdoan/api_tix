@@ -13,6 +13,7 @@ const cinemaRouter = Router();
 
 cinemaRouter.get("/movies-by-cinema/:id", findMoviesByCinema);
 cinemaRouter.get("/", findCinema);
+
 cinemaRouter.post("/", createCinema);
 cinemaRouter.get("/:id", findCinema);
 cinemaRouter.put("/:id", updateCinema);
