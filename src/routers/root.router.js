@@ -23,8 +23,9 @@ rootRouter.use("/cinemas", cinemaRouter);
 rootRouter.use("/tickets", ticketRouter);
 rootRouter.use("/show-times", showTimeRouter);
 rootRouter.use("/test", (req, res) => {
-  res.cookie("Set-cookie", "test-cookies");
-  res.send("success ");
+  res.cookie("token", "token here ");
+  const cookie = req.cookies;
+  res.send(cookie);
 });
 
 module.exports = { rootRouter };

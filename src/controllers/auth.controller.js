@@ -21,6 +21,8 @@ const signIn = async (req, res) => {
           nhomQuyen: user.nhomQuyen,
         };
         const token = jwt.sign(payload, APP_SECRET_KEY);
+        res.cookie("token", token);
+
         res.status(200).send({ message: "Đăng nhập thành công", token });
       } else {
         res.status(404).send({ message: "Tài khoản hoặc mật khẩu không đúng" });

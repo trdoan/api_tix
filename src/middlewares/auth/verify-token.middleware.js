@@ -3,7 +3,7 @@ const { APP_SECRET_KEY } = require("../../../config");
 // test bug fake token
 const { User } = require("../../../models");
 const authenticate = async (req, res, next) => {
-  const token = req.header("token");
+  const { token } = req.cookies;
   if (token) {
     try {
       const decode = jwt.verify(token, APP_SECRET_KEY);

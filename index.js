@@ -4,11 +4,11 @@ const cors = require("cors");
 const { PORT, SAVE_LOCAL } = require("./config");
 const path = require("path");
 const app = express();
-
+const cookieParser = require("cookie-parser");
 const http = require("http");
 // fix cors issues localhost
 app.use(cors());
-
+app.use(cookieParser());
 // format JSON request
 app.use(express.json());
 
