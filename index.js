@@ -22,7 +22,9 @@ setInterval(() => {
 }, 300000);
 
 app.use("/api/v1", rootRouter);
-
+app.use("/*", (req, res) => {
+  res.status(404).send({ statusCode: 404, message: "Liên kết không tồn tại" });
+});
 // console.log(arrUser);
 app.listen(PORT, () => {
   console.log("listening on PORT", PORT);
