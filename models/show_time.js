@@ -14,12 +14,14 @@ module.exports = (sequelize, DataTypes) => {
         onDelete: "cascade",
         onUpdate: "cascade",
         hooks: true,
+        as: "chiTietCumRap",
       });
       this.belongsTo(Movie, {
         foreignKey: "movieId",
         onDelete: "cascade",
         onUpdate: "cascade",
         hooks: true,
+        as: "chiTietPhim",
       });
       this.hasMany(Seat, {
         foreignKey: "showtimeId",

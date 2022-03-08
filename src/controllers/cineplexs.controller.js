@@ -68,29 +68,23 @@ const createCineplex = async (req, res) => {
 const findAllWithShowTime = async (req, res) => {
   try {
     const cineplexList = await Cineplex.findAll({
-      include: {
-        model: Cinema,
-        include: [
-          {
-            model: Show_Time,
-            include: {
-              model: Movie,
+      include: [
+        {
+          model: Cinema,
+          as: "danhSachCumRap",
+          include: [
+            {
+              model: Show_Time,
+              as: "lichChieu",
+              attributes: {
+                exclude: ["cinemaId", "movieId"],
+              },
+              include: ["chiTietPhim"],
             },
-            as: "lichChieu",
-          },
-        ],
-        as: "danhSachCumRap",
-      },
+          ],
+        },
+      ],
     });
-    const temp = [
-      { color: "red", id: 1 },
-      { color: "red", id: 2 },
-      { color: " blue", id: 3 },
-    ];
-    const test = _.chain(temp)
-      .groupBy("color")
-      .map((value, key) => ({ color: key, item: value }))
-      .value();
     console.log(cineplexList);
     res.send(cineplexList);
   } catch (error) {

@@ -1,9 +1,9 @@
 {
   "development": {
-    "username": "root",
-    "password": "doanvipqua",
-    "database": "test_db_api",
-    "host": "localhost",
+    "username": "U7WWADHJLI",
+    "password": "ylfXU3cROi",
+    "database": "U7WWADHJLI",
+    "host": "remotemysql.com",
     "dialect": "mysql"
   },
   "test": {
