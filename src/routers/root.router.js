@@ -25,6 +25,7 @@ rootRouter.use("/show-times", showTimeRouter);
 rootRouter.use("/test", (req, res) => {
   res.cookie("Set-cookie", "test-cookies");
   res.send("success ");
+  console.log("asdas");
 });
 
 module.exports = { rootRouter };
