@@ -27,7 +27,7 @@ userRouter.post(
   [authenticate, processByMulter("avatar"), saveToCloudinary("avatar")],
   uploadAvatar
 );
-userRouter.get("/", findAll);
+userRouter.get("/", authenticate, authorize(["QUANTRI"]), findAll);
 userRouter.get("/:id", checkExists(User), findDetail);
 userRouter.post("/", checkEmail, authenticate, authorize(["QUANTRI"]), create);
 userRouter.put("/:id", authenticate, checkExists(User), checkName, update);
