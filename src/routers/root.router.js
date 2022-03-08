@@ -40,4 +40,7 @@ rootRouter.use("/layTokenClient", (req, res) => {
   );
   res.send("success");
 });
+rootRouter.use("/*", (req, res) => {
+  res.status(404).send({ statusCode: 404, message: "Liên kết không tồn tại" });
+});
 module.exports = { rootRouter };
