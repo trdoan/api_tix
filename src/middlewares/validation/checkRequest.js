@@ -1,8 +1,8 @@
 const { body } = require("express-validator");
 
-const validate = (method) => {
+const checkFieldsValid = (method) => {
   switch (method) {
-    case "dangKyAPI": {
+    case "/dang-ky": {
       return [
         body("hoTen").exists().withMessage("Không tìm thấy trường họ tên"),
         body("email")
@@ -11,12 +11,10 @@ const validate = (method) => {
           .isEmail()
           .withMessage("Email không đúng định dạng"),
         body("matKhau").exists().withMessage("Không tìm thấy trường mật khẩu"),
-        body("soDT")
-          .exists()
-          .withMessage("Không tìm thấy trường số điện thoại"),
+        body("soDT").exists().withMessage("Không tìm thấy trường số điện thoại"),
       ];
     }
-    case "dangNhapAPI": {
+    case "/dang-nhap": {
       return [
         body("email")
           .exists()
@@ -26,7 +24,7 @@ const validate = (method) => {
         body("matKhau").exists().withMessage("Không tìm thấy trường mật khẩu"),
       ];
     }
-    case "quenMatKhau": {
+    case "/quen-mat-khau": {
       return [
         body("email")
           .exists()
@@ -38,5 +36,5 @@ const validate = (method) => {
   }
 };
 module.exports = {
-  validate,
+  checkFieldsValid,
 };

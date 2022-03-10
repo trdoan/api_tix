@@ -17,25 +17,31 @@ const {
   saveToCloudinary,
 } = require("../middlewares/upload/upload-image.middleware");
 const {
-  checkName,
   checkExists,
   checkEmail,
+  checkUniqueFields,
 } = require("../middlewares/user.middleware");
 const userRouter = Router();
-userRouter.post(
-  "/upload-avatar",
-  [authenticate, processByMulter("avatar"), saveToCloudinary("avatar")],
-  uploadAvatar
-);
-userRouter.get("/", authenticate, authorize(["QUANTRI"]), findAll);
+
+userRouter.get("/", findAll);
 userRouter.get("/:id", checkExists(User), findDetail);
-userRouter.post("/", checkEmail, authenticate, authorize(["QUANTRI"]), create);
-userRouter.put("/:id", authenticate, checkExists(User), checkName, update);
+userRouter.post(
+  "/",
+  // checkEmail, authenticate, authorize(["QUANTRI"])
+  checkUniqueFields,
+  create
+);
+userRouter.put("/:id", authenticate, checkExists(User), update);
 userRouter.delete(
   "/:id",
   authenticate,
   authorize(["QUANTRI"]),
   checkExists(User),
   remove
+);
+userRouter.post(
+  "/upload-avatar",
+  [authenticate, processByMulter("avatar"), saveToCloudinary("avatar")],
+  uploadAvatar
 );
 module.exports = { userRouter };

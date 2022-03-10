@@ -1,13 +1,6 @@
 const { ERROR_MESSAGE } = require("../../config");
-const checkEmty = (req, res) => {};
-const checkName = (req, res, next) => {
-  const { hoTen } = req.body;
-  if (hoTen.length < 0 || hoTen.length > 15) {
-    res.status(404).send({ message: "Tên có tối đa 15 ký tự" });
-  } else {
-    next();
-  }
-};
+const { User } = require("../../models");
+
 const checkExists = (modelName) => {
   return async (req, res, next) => {
     const { id } = req.params;
@@ -19,21 +12,30 @@ const checkExists = (modelName) => {
     }
   };
 };
-const checkEmail = (req, res, next) => {
+const checkUniqueFields = async (req, res, next) => {
+  // user has two unique field: email, phone
   try {
-    const { email } = req.body;
-    const regexEmail = /\S+@\S+\.\S+/;
-    const validEmail = regexEmail.test(email);
-    validEmail
-      ? next()
-      : res.status(400).send({ message: "Định dạng email không hợp lệ" });
+    const { email, soDT } = req.body;
+    const emailDB = await User.findOne({ where: { email } });
+    const phoneDB = await User.findOne({ where: { soDT } });
+    const errors = [];
+    emailDB &&
+      errors.push({
+        name: "Email đã tồn tại",
+      });
+    phoneDB &&
+      errors.push({
+        name: "Số điện đã tồn tại",
+      });
+    errors.length > 0
+      ? res.status(400).send({ statusCode: 400, errors })
+      : next();
   } catch (error) {
-    console.error(error);
-    res.status(400).send({ message: "Không có thông tin email" });
+    console.log(error);
+    res.status(500).send({ statusCode: 500, message: ERROR_MESSAGE });
   }
 };
 module.exports = {
-  checkName,
   checkExists,
-  checkEmail,
+  checkUniqueFields,
 };

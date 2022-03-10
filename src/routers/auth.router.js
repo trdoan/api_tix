@@ -1,22 +1,18 @@
 const { Router } = require("express");
-const {
-  signIn,
-  signUp,
-  resetPassword,
-} = require("../controllers/auth.controller");
-const {
-  sendPassToEmail,
-} = require("../middlewares/auth/reset-password.middleware");
-const { validate } = require("../middlewares/validation/checkRequest");
+const { signIn, signUp, resetPassword } = require("../controllers/auth.controller");
+const { checkEmailExist } = require("../middlewares/auth.middleware");
+
+const { checkUniqueFields } = require("../middlewares/user.middleware");
+const { checkFieldsValid } = require("../middlewares/validation/checkRequest");
 
 const authRouter = Router();
 
-authRouter.post("/dang-nhap", validate("dangNhapAPI"), signIn);
-authRouter.post("/dang-ky", validate("dangKyAPI"), signUp);
+authRouter.post("/dang-nhap", checkFieldsValid("/dang-nhap"), checkEmailExist, signIn);
+authRouter.post("/dang-ky", checkFieldsValid("/dang-ky"), checkUniqueFields, signUp);
 authRouter.post(
   "/quen-mat-khau",
-  validate("quenMatKhau"),
-  [sendPassToEmail],
+  checkFieldsValid("/quen-mat-khau"),
+  checkEmailExist,
   resetPassword
 );
 

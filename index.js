@@ -8,9 +8,6 @@ const cookieParser = require("cookie-parser");
 const http = require("http");
 // fix cors issues localhost
 app.use(cors({ credentials: true, origin: "http://localhost:3000" }));
-// app.use(
-//   cors({ credentials: true, origin: "https://react-movie-ruby.vercel.app" })
-// );
 
 app.use(cookieParser());
 // format JSON request

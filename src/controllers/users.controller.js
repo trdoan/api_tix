@@ -14,9 +14,9 @@ const uploadAvatar = async (req, res) => {
 
 const findAll = async (req, res) => {
   try {
-    let page = req.query.page || 1;
-    let items = req.query.items || 10;
-    console.log(page, items);
+    let page = +req.query.page || 1;
+    let items = +req.query.items || 10;
+
     const data = await User.findAndCountAll({
       attributes: {
         exclude: ["matKhau", "createdAt", "updatedAt"],
@@ -25,16 +25,18 @@ const findAll = async (req, res) => {
       offset: +((page - 1) * items),
     });
 
-    const { count: totalItems, rows: danhSachNguoiDung } = data;
-    const tongSoTrang = Math.ceil(totalItems / items);
+    const { count: totalItems, rows: userList } = data;
+    const totalPage = Math.ceil(totalItems / items);
     res.status(200).send({
-      soTrang: +page,
-      tongSoTrang: tongSoTrang,
-      danhSachNguoiDung,
+      statusCode: 200,
+      page,
+      totalPage,
+      userList,
     });
   } catch (error) {
     console.log(error);
     res.status(500).send({
+      statusCode: 500,
       message: ERROR_MESSAGE,
     });
   }
@@ -53,7 +55,7 @@ const findDetail = async (req, res) => {
     });
 
     if (user) {
-      res.status(200).send(user);
+      res.status(200).send({ statusCode: 200, user });
     } else {
       res.status(404).send({ message: "Người dùng không tồn tại" });
     }
@@ -66,8 +68,8 @@ const findDetail = async (req, res) => {
 };
 
 const create = async (req, res) => {
+  const { hoTen, email, matKhau, soDT, nhomQuyen, avatar } = req.body;
   try {
-    const { hoTen, email, matKhau, soDT, nhomQuyen, avatar } = req.body;
     if (hoTen && matKhau) {
       let salt = bcrypt.genSaltSync(10);
       let hashPassword = bcrypt.hashSync(matKhau, salt);
@@ -79,31 +81,13 @@ const create = async (req, res) => {
         nhomQuyen,
         avatar,
       });
-      res.status(201).send({ message: SUCCESS_MESSAGE });
+      res.status(201).send({ statusCode: 201, message: SUCCESS_MESSAGE });
     } else {
       res.status(400).send({ message: "Dữ liệu không hợp lệ" });
     }
   } catch (error) {
-    const { code } = error.original;
-    const { errors } = error;
-
-    if (code === "ER_DUP_ENTRY") {
-      let key = errors[0].path;
-      switch (key) {
-        case "soDT":
-          key = "Số điện thoại";
-          break;
-        case "email":
-          key = "Email";
-          break;
-        default:
-          break;
-      }
-      res.status(400).send({ message: key + " đã tồn tại" });
-    } else {
-      console.log(error);
-      res.status(500).send({ status: 500, message: ERROR_MESSAGE });
-    }
+    console.log(error);
+    res.status(500).send({ statusCode: 500, message: ERROR_MESSAGE });
   }
 };
 
