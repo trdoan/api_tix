@@ -7,8 +7,7 @@ const app = express();
 const cookieParser = require("cookie-parser");
 const http = require("http");
 // fix cors issues localhost
-app.use(cors({ credentials: true, origin: "http://localhost:3000" }));
-
+app.use(cors());
 app.use(cookieParser());
 // format JSON request
 app.use(express.json());
@@ -26,7 +25,7 @@ app.use("/api/v1", rootRouter);
 app.use("/*", (req, res) => {
   res.status(404).send({ statusCode: 404, message: "Liên kết không tồn tại" });
 });
-// console.log(arrUser);
+
 app.listen(PORT, () => {
   console.log("listening on PORT", PORT);
 });

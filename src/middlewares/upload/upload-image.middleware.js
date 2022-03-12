@@ -11,7 +11,6 @@ const processByMulter = (keyRequest) => {
   return upload.single(keyRequest);
 };
 const saveToCloudinary = (key) => async (req, res, next) => {
-  // console.log(req.file, req.body.avatar, key);
   let path, avatar;
   try {
     if (req.file) {

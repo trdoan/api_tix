@@ -1,60 +1,57 @@
 const jwt = require("jsonwebtoken");
-const { APP_SECRET_KEY } = require("../../../config");
-// test bug fake token
+const { APP_SECRET_KEY, ERROR_MESSAGE } = require("../../../config");
 const { User } = require("../../../models");
+
 const authenticate = async (req, res, next) => {
   const { token } = req.headers;
-
   if (token) {
     try {
       const decode = jwt.verify(token, APP_SECRET_KEY);
       req.user = decode;
-      const user = await User.findOne({
-        where: {
-          id: req.user.id,
-        },
-      });
-      if (user) {
-        next();
-      } else {
-        res.status(401).send({ message: "Token đã hết hạn hoặc không hợp lệ" });
-      }
+      next();
     } catch (error) {
       console.log(error);
-      res
-        .status(401)
-        .send({ message: "Bạn không có quyền thực hiện thao tác" });
+      res.status(400).send({ statusCode: 401, message: "Token không hợp lệ" });
     }
   } else {
-    res.status(401).send({ message: "Bạn chưa đăng nhập" });
+    res.status(401).send({ statusCode: 401, message: "Bạn chưa đăng nhập" });
   }
 };
+
+// check payload token (user in db?)
+const checkUserExist = async (req, res, next) => {
+  const { id } = req.user;
+  const user = await User.findOne({
+    where: {
+      id,
+    },
+  });
+  if (user) {
+    // token valid
+    next();
+  } else {
+    // token has expired (user has been deleted or token has been hacked)
+    res.status(401).send({ statusCode: 401, message: "Token đã hết hạn" });
+  }
+};
+
 // check role
 const authorize = (arrayRole) => async (req, res, next) => {
   try {
     // role params from request
-    const { role } = req.user;
-    console.log(req.user);
-    // find userDB from token valid from request
-    const userDB = await User.findByPk(req.user.id);
-
-    if (userDB) {
-      console.log(userDB.id, userDB.email, userDB.nhomQuyen);
-      console.log({ nguoiThucHien: req.user });
-      if (arrayRole.includes(userDB.nhomQuyen)) {
-        next();
-      } else {
-        res.status(403).send({ message: "Không có quyền thực hiện thao tác" });
-      }
+    const { nhomQuyen } = req.user;
+    if (arrayRole.includes(nhomQuyen)) {
+      next();
     } else {
-      res.status(403).send({ message: "Token không hợp lệ hoặc hết hạn" });
+      res.status(403).send({ statusCode: 403, message: "Không có quyền thực hiện thao tác" });
     }
   } catch (error) {
     console.log(error);
-    res.status(500).send({ message: "Server Error" });
+    res.status(500).send({ statusCode: 500, message: ERROR_MESSAGE });
   }
 };
 module.exports = {
   authenticate,
   authorize,
+  checkUserExist,
 };

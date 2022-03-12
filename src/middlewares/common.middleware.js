@@ -1,5 +1,15 @@
 const { body } = require("express-validator");
-
+const { validationResult } = require("express-validator");
+const checkErrorRequest = (req, res, next) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({
+      errors: errors.array(),
+    });
+  } else {
+    next();
+  }
+};
 const checkFieldsValid = (method) => {
   switch (method) {
     case "/dang-ky": {
@@ -37,4 +47,5 @@ const checkFieldsValid = (method) => {
 };
 module.exports = {
   checkFieldsValid,
+  checkErrorRequest,
 };

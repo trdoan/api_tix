@@ -11,34 +11,27 @@ const {
 const {
   authenticate,
   authorize,
+  checkUserExist,
 } = require("../middlewares/auth/verify-token.middleware");
 const {
   processByMulter,
   saveToCloudinary,
 } = require("../middlewares/upload/upload-image.middleware");
-const {
-  checkExists,
-  checkEmail,
-  checkUniqueFields,
-} = require("../middlewares/user.middleware");
+const { checkExists, checkUniqueFields } = require("../middlewares/user.middleware");
 const userRouter = Router();
 
 userRouter.get("/", findAll);
 userRouter.get("/:id", checkExists(User), findDetail);
 userRouter.post(
   "/",
-  // checkEmail, authenticate, authorize(["QUANTRI"])
+  authenticate,
+  checkUserExist,
+  authorize(["QUANTRI"]),
   checkUniqueFields,
   create
 );
 userRouter.put("/:id", authenticate, checkExists(User), update);
-userRouter.delete(
-  "/:id",
-  authenticate,
-  authorize(["QUANTRI"]),
-  checkExists(User),
-  remove
-);
+userRouter.delete("/:id", authenticate, authorize(["QUANTRI"]), checkExists(User), remove);
 userRouter.post(
   "/upload-avatar",
   [authenticate, processByMulter("avatar"), saveToCloudinary("avatar")],

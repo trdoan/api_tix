@@ -5,15 +5,9 @@ const { APP_SECRET_KEY, ERROR_MESSAGE } = require("./../../config");
 const nodemailer = require("nodemailer");
 const { validationResult } = require("express-validator");
 const signIn = async (req, res) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(400).json({
-      errors: errors.array(),
-    });
-  }
   try {
     const { matKhau } = req.body;
-    const { user } = req;
+    const { user } = req; // user has email from request
     const isLogin = bcrypt.compareSync(matKhau, user.matKhau);
     if (isLogin) {
       const payload = {

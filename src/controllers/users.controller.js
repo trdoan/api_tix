@@ -2,16 +2,6 @@ const { User } = require("../../models");
 const bcrypt = require("bcryptjs");
 const { ERROR_MESSAGE, SUCCESS_MESSAGE } = require("../../config");
 
-const uploadAvatar = async (req, res) => {
-  const { user, linkImage } = req;
-  const userUpload = await User.findByPk(user.id);
-
-  userUpload.avatar = linkImage;
-  userUpload.save();
-
-  res.status(200).send({ message: SUCCESS_MESSAGE });
-};
-
 const findAll = async (req, res) => {
   try {
     let page = +req.query.page || 1;
@@ -50,15 +40,10 @@ const findDetail = async (req, res) => {
         id,
       },
       attributes: {
-        exclude: ["password", "createdAt", "updatedAt"],
+        exclude: ["matKhau", "createdAt", "updatedAt"],
       },
     });
-
-    if (user) {
-      res.status(200).send({ statusCode: 200, user });
-    } else {
-      res.status(404).send({ message: "Người dùng không tồn tại" });
-    }
+    res.status(200).send({ statusCode: 200, user });
   } catch (error) {
     res.status(500).send({
       status: 500,
@@ -172,6 +157,13 @@ const remove = async (req, res) => {
   }
 };
 
+const uploadAvatar = async (req, res) => {
+  const { user, linkImage } = req;
+  const userUpload = await User.findByPk(user.id);
+  userUpload.avatar = linkImage;
+  userUpload.save();
+  res.status(200).send({ message: SUCCESS_MESSAGE });
+};
 module.exports = {
   findAll,
   findDetail,
