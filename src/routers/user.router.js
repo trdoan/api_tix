@@ -1,4 +1,5 @@
 const { Router } = require("express");
+
 const { User } = require("../../models");
 const {
   findAll,
@@ -14,24 +15,50 @@ const {
   checkUserExist,
 } = require("../middlewares/auth/verify-token.middleware");
 const {
+  checkExists,
+  checkFieldsValid,
+  checkErrorRequest,
+} = require("../middlewares/common.middleware");
+const {
   processByMulter,
   saveToCloudinary,
 } = require("../middlewares/upload/upload-image.middleware");
-const { checkExists, checkUniqueFields } = require("../middlewares/user.middleware");
+const { checkUniqueFields } = require("../middlewares/user.middleware");
 const userRouter = Router();
 
 userRouter.get("/", findAll);
-userRouter.get("/:id", checkExists(User), findDetail);
+userRouter.get(
+  "/:id",
+  checkFieldsValid("/:id"),
+  checkErrorRequest,
+  checkExists(User),
+  findDetail
+);
 userRouter.post(
   "/",
+  checkFieldsValid("/taoNguoiDung"),
+  checkErrorRequest,
   authenticate,
-  checkUserExist,
+  checkExists(User),
   authorize(["QUANTRI"]),
   checkUniqueFields,
   create
 );
-userRouter.put("/:id", authenticate, checkExists(User), update);
-userRouter.delete("/:id", authenticate, authorize(["QUANTRI"]), checkExists(User), remove);
+userRouter.put(
+  "/:id",
+  checkFieldsValid("/capNhatNguoiDung"),
+  checkErrorRequest,
+  authenticate,
+  checkExists(User),
+  update
+);
+userRouter.delete(
+  "/:id",
+  authenticate,
+  checkExists(User),
+  authorize(["QUANTRI"]),
+  remove
+);
 userRouter.post(
   "/upload-avatar",
   [authenticate, processByMulter("avatar"), saveToCloudinary("avatar")],

@@ -18,23 +18,6 @@ const authenticate = async (req, res, next) => {
   }
 };
 
-// check payload token (user in db?)
-const checkUserExist = async (req, res, next) => {
-  const { id } = req.user;
-  const user = await User.findOne({
-    where: {
-      id,
-    },
-  });
-  if (user) {
-    // token valid
-    next();
-  } else {
-    // token has expired (user has been deleted or token has been hacked)
-    res.status(401).send({ statusCode: 401, message: "Token đã hết hạn" });
-  }
-};
-
 // check role
 const authorize = (arrayRole) => async (req, res, next) => {
   try {
@@ -43,7 +26,10 @@ const authorize = (arrayRole) => async (req, res, next) => {
     if (arrayRole.includes(nhomQuyen)) {
       next();
     } else {
-      res.status(403).send({ statusCode: 403, message: "Không có quyền thực hiện thao tác" });
+      res.status(403).send({
+        statusCode: 403,
+        message: "Không có quyền thực hiện thao tác",
+      });
     }
   } catch (error) {
     console.log(error);
@@ -53,5 +39,4 @@ const authorize = (arrayRole) => async (req, res, next) => {
 module.exports = {
   authenticate,
   authorize,
-  checkUserExist,
 };

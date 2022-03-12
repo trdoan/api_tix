@@ -6,8 +6,9 @@ const {
   createCineplex,
   findAllWithShowTime,
 } = require("../controllers/cineplexs.controller");
-const { checkExists } = require("../middlewares/user.middleware");
+
 const { Cineplex } = require("../../models");
+const { checkExists } = require("../middlewares/common.middleware");
 const cineplexsRouter = Router();
 
 cineplexsRouter.get("/", findAllCineplex);

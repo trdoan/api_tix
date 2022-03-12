@@ -1,17 +1,6 @@
 const { ERROR_MESSAGE } = require("../../config");
 const { User } = require("../../models");
 
-const checkExists = (modelName) => {
-  return async (req, res, next) => {
-    const { id } = req.params;
-    const statusID = await modelName.findByPk(id);
-    if (statusID) {
-      next();
-    } else {
-      res.status(404).send({ statusCode: 404, message: "Không tìm thấy tài nguyên" });
-    }
-  };
-};
 const checkUniqueFields = async (req, res, next) => {
   // user has two unique field: email, phone
   try {
@@ -27,13 +16,14 @@ const checkUniqueFields = async (req, res, next) => {
       errors.push({
         msg: "Số điện đã tồn tại",
       });
-    errors.length > 0 ? res.status(400).send({ statusCode: 400, errors }) : next();
+    errors.length > 0
+      ? res.status(400).send({ statusCode: 400, errors })
+      : next();
   } catch (error) {
     console.log(error);
     res.status(500).send({ statusCode: 500, message: ERROR_MESSAGE });
   }
 };
 module.exports = {
-  checkExists,
   checkUniqueFields,
 };
