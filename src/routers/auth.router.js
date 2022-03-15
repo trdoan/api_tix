@@ -14,10 +14,17 @@ authRouter.post(
   checkEmailExist,
   signIn
 );
-authRouter.post("/dang-ky", checkFieldsValid("/dang-ky"), checkUniqueFields, signUp);
+authRouter.post(
+  "/dang-ky",
+  checkFieldsValid("/dang-ky"),
+  checkErrorRequest,
+  checkUniqueFields,
+  signUp
+);
 authRouter.post(
   "/quen-mat-khau",
   checkFieldsValid("/quen-mat-khau"),
+  checkErrorRequest,
   checkEmailExist,
   resetPassword
 );

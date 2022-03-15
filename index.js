@@ -6,6 +6,7 @@ const path = require("path");
 const app = express();
 const cookieParser = require("cookie-parser");
 const http = require("http");
+
 // fix cors issues localhost
 app.use(cors());
 app.use(cookieParser());

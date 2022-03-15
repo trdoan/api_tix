@@ -9,11 +9,8 @@ const {
   remove,
   uploadAvatar,
 } = require("../controllers/users.controller");
-const {
-  authenticate,
-  authorize,
-  checkUserExist,
-} = require("../middlewares/auth/verify-token.middleware");
+const { verifyToken, authenticate, authorize } = require("../middlewares/auth.middleware");
+
 const {
   checkExists,
   checkFieldsValid,
@@ -27,19 +24,13 @@ const { checkUniqueFields } = require("../middlewares/user.middleware");
 const userRouter = Router();
 
 userRouter.get("/", findAll);
-userRouter.get(
-  "/:id",
-  checkFieldsValid("/:id"),
-  checkErrorRequest,
-  checkExists(User),
-  findDetail
-);
+userRouter.get("/:id", checkFieldsValid("/:id"), checkErrorRequest, checkExists(User), findDetail);
 userRouter.post(
   "/",
   checkFieldsValid("/taoNguoiDung"),
   checkErrorRequest,
   authenticate,
-  checkExists(User),
+  verifyToken,
   authorize(["QUANTRI"]),
   checkUniqueFields,
   create
@@ -49,14 +40,18 @@ userRouter.put(
   checkFieldsValid("/capNhatNguoiDung"),
   checkErrorRequest,
   authenticate,
-  checkExists(User),
+  verifyToken,
+  checkUniqueFields,
   update
 );
 userRouter.delete(
   "/:id",
+  checkFieldsValid("/:id"),
+  checkErrorRequest,
   authenticate,
-  checkExists(User),
+  verifyToken,
   authorize(["QUANTRI"]),
+  checkExists(User),
   remove
 );
 userRouter.post(

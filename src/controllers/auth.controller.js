@@ -3,7 +3,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { APP_SECRET_KEY, ERROR_MESSAGE } = require("./../../config");
 const nodemailer = require("nodemailer");
-const { validationResult } = require("express-validator");
+
 const signIn = async (req, res) => {
   try {
     const { matKhau } = req.body;
@@ -37,10 +37,6 @@ const signIn = async (req, res) => {
 };
 const signUp = async (req, res) => {
   try {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
-    }
     const { hoTen, email, matKhau, soDT } = req.body;
     let salt = bcrypt.genSaltSync(10);
     let hashPassword = bcrypt.hashSync(matKhau, salt);
@@ -57,11 +53,6 @@ const signUp = async (req, res) => {
   }
 };
 const resetPassword = async (req, res) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() });
-  }
-
   try {
     const { email } = req.body;
     const passwordDefault = (Math.random() + 1).toString(36).substring(2);
