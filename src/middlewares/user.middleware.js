@@ -18,9 +18,12 @@ const checkUniqueFields = async (req, res, next) => {
         field: "soDT",
         msg: "Số điện đã tồn tại",
       });
-    errors.length > 0 ? res.status(400).send({ statusCode: 400, errors }) : next();
+    errors.length > 0
+      ? res.status(400).send({ statusCode: 400, errors })
+      : next();
   } catch (error) {
     console.log(error);
+
     res.status(500).send({ statusCode: 500, message: ERROR_MESSAGE });
   }
 };

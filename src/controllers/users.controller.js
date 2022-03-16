@@ -6,11 +6,12 @@ const findAll = async (req, res) => {
   try {
     let page = +req.query.page || 1;
     let items = +req.query.items || 10;
-
+    // const role = req.query.role;
     const data = await User.findAndCountAll({
       attributes: {
         exclude: ["matKhau", "createdAt", "updatedAt"],
       },
+      // where: { nhomQuyen: role },
       limit: +items,
       offset: +((page - 1) * items),
     });
@@ -80,9 +81,13 @@ const update = async (req, res) => {
   const nhomQuyenDecoded = req.user.nhomQuyen;
   let userUpdate = { hoTen, email, matKhau: hashPassword, soDT };
   if (nhomQuyenDecoded === "NGUOIDUNG" && id != req.user.id) {
-    res.status(403).send({ statusCode: 403, message: "Không có quyền thực hiện thao tác" });
+    res
+      .status(403)
+      .send({ statusCode: 403, message: "Không có quyền thực hiện thao tác" });
   } else {
-    nhomQuyenDecoded === "NGUOIDUNG" ? userUpdate : (userUpdate = { ...userUpdate, nhomQuyen });
+    nhomQuyenDecoded === "NGUOIDUNG"
+      ? userUpdate
+      : (userUpdate = { ...userUpdate, nhomQuyen });
     try {
       await User.update(userUpdate, {
         where: {
